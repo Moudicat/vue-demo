@@ -2,7 +2,13 @@
     <div id="app">
         <img src="./assets/logo.png">
         <h2>Vuex demo</h2>
+        <p>{{ counter }}</p>
+        <p>{{ this.$store.getters.halfCount }}</p>
         <button @click="clickHandle">increment</button>
+        <button @click="asyncClick">async increment</button>
+        <br />
+        <p>{{ nowStr }}</p>
+        <button @click="strClickHandle">payload test</button>
     </div>
 </template>
 
@@ -16,11 +22,27 @@
         msg: 'Welcome to Your Vue.js App'
       }
     },
-
+    computed: {
+      counter() {
+        return this.$store.state.count;
+      },
+      nowStr() {
+        return this.$store.state.str;
+      }
+    },
     methods: {
       clickHandle() {
         Store.commit('increment');
         console.log('[Dbg.reddy:this.$store.state.count]:', this.$store.state.count);
+      },
+      strClickHandle() {
+        Store.commit({
+          type: 'update',
+          str: 'test!'
+        });
+      },
+      asyncClick() {
+        Store.dispatch('incrementAsync');
       }
     }
   }
