@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     count: 0,
-    str: ' '
+    str: ''
   },
   // 通过mutations改变state的值
   mutations: {

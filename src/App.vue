@@ -9,17 +9,25 @@
         <br />
         <p>{{ nowStr }}</p>
         <button @click="strClickHandle">payload test</button>
+        <br />
+        <input type="text" @keydown.enter="enterHandle" v-model="searchKeyWords" placeholder="回车异步获取用户名">
+        <ul class="search-box">
+            <li v-for="item in searchList">{{item.name}}</li>
+        </ul>
     </div>
 </template>
 
 <script>
   import Store from './vuex/store';
+  import Ajax from './section/ajax';
+
 
   export default {
     name: 'app',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        searchKeyWords: '',
+        searchList: []
       }
     },
     computed: {
@@ -43,6 +51,13 @@
       },
       asyncClick() {
         Store.dispatch('incrementAsync');
+      },
+      async enterHandle () {
+        let req = await Ajax.fetchUsername();
+        this.searchList = [];
+        for (let obj of req[0]) {
+          this.searchList.push(obj);
+        }
       }
     }
   }
